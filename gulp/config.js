@@ -30,7 +30,8 @@ module.exports = {
     // Enable source maps
     debug: true,
     // Additional file extentions to make optional
-    extensions: ['.coffee', '.hbs'],
+    //extensions: ['.coffee', '.hbs'],
+    src: ['components/*'],
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
@@ -39,7 +40,7 @@ module.exports = {
       outputName: 'app.js'
     }, {
       entries: './src/javascript/head.coffee',
-      dest: dest,
+      dest: dest+'/scripts',
       outputName: 'head.js'
     }]
   }

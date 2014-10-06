@@ -1,3 +1,4 @@
+
 ###*
 # The Main enterance Into my App
 #
@@ -16,18 +17,14 @@ module.exports = Backbone.View.extend
   template: require './template'
 
   initialize: ->
-    underscoreTest = _.last([0,1,2, 'hi mom!'])
     @render()
 
   render: ->
-    #@$el.html @template
-
-    #plugin()
-    @threeIt()
+    @threeInit()
     @animate()
 
-  threeIt: ->
-    console.log 'three it '
+  threeInit: ->
+    console.log 'three it OUT '
     @camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 )
     @camera.position.z = 1000
     @scene = new THREE.Scene()
@@ -42,7 +39,6 @@ module.exports = Backbone.View.extend
   animate:->
     requestAnimationFrame =>
       @animate()
-
     @mesh.rotation.x += 0.01
     @mesh.rotation.y += 0.02
     @renderer.render( @scene, @camera )
