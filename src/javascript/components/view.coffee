@@ -13,7 +13,7 @@ THREE     = require 'three'
 
 module.exports = Backbone.View.extend
 
-  template: require './template.hbs'
+  template: require './template'
 
   initialize: ->
     @render()
@@ -23,7 +23,6 @@ module.exports = Backbone.View.extend
     @animate()
 
   threeInit: ->
-    alert 'TEST'
     @camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 )
     @camera.position.z = 1000
     @scene = new THREE.Scene()
