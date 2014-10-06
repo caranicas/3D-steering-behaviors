@@ -1,6 +1,7 @@
 THREE = require 'three'
 $ = require 'jquery'
 Boid = require './objs/boid.coffee'
+Physi = require 'Physi'
 
 class FlockingDemo
 
@@ -38,10 +39,11 @@ class FlockingDemo
     @mesh.rotation.y += 0.02
 
   createBoid: ->
-    console.log 'in create func'
     boid = new Boid()
-    console.log('boid', boid)
     boid.init();
+
+    console.log 'Physi'
+    console.log Physi
 
 
 module.exports = new FlockingDemo

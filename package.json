@@ -8,7 +8,8 @@
   },
   "browser": {
     "underscore": "backbone/node_modules/underscore",
-    "plugin": "./src/javascript/vendor/jquery-plugin.js"
+    "Physi": "./bower_components/Physijs/physi.js",
+    "THREE": "./bower_components/threejs/src/Three.js"
   },
   "browserify": {
     "transform": [
@@ -19,11 +20,23 @@
   },
   "browserify-shim": {
     "plugin": {
-      "exports": "plugin",
       "depends": [
         "jquery:$"
       ]
     }
+    ,
+     "THREE": {
+      "exports": "THREE"
+    },
+
+    "Physi": {
+      "exports": "Physi",
+      "depends": [
+        "THREE:THREE"
+      ]
+    }
+
+
   },
   "devDependencies": {
     "browser-sync": "~1.3.6",
