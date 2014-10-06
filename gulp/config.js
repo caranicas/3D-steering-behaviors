@@ -14,9 +14,9 @@ module.exports = {
       "!" + dest + "/**.map"
     ]
   },
-  sass: {
-    src: src + "/sass/*.{sass, scss}",
-    dest: dest
+  stylus: {
+    src: src + "/styles/*",
+    dest: dest+'/styles'
   },
   images: {
     src: src + "/images/**",
@@ -35,7 +35,7 @@ module.exports = {
     // bundle config in the list below
     bundleConfigs: [{
       entries: './src/javascript/app.coffee',
-      dest: dest,
+      dest: dest+'/scripts',
       outputName: 'app.js'
     }, {
       entries: './src/javascript/head.coffee',
