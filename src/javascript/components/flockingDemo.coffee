@@ -1,19 +1,31 @@
 THREE = require 'three'
 $ = require 'jquery'
+Boid = require './objs/boid.coffee'
 
 class FlockingDemo
 
-	threeInit: ->
+  threeInit: ->
+    @__initScene()
+    @__initCamera()
+    @__initGeometry()
+    console.log('try create')
+    @createBoid()
+
+  __initScene: ->
+    @scene = new THREE.Scene()
+    webcan = $('#webgl-canvas')[0];
+    @renderer = new THREE.WebGLRenderer({canvas:webcan})
+    @renderer.setSize( window.innerWidth, window.innerHeight )
+
+  __initCamera: ->
     @camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 10000 )
     @camera.position.z = 1000
-    @scene = new THREE.Scene()
+
+  __initGeometry: ->
     @geometry = new THREE.BoxGeometry( 200, 200, 200 )
     @material = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true} )
     @mesh = new THREE.Mesh( @geometry, @material )
     @scene.add(@mesh)
-    webcan = $('#webgl-canvas')[0];
-    @renderer = new THREE.WebGLRenderer({canvas:webcan})
-    @renderer.setSize( window.innerWidth, window.innerHeight )
 
   loop:->
     requestAnimationFrame =>
@@ -24,5 +36,12 @@ class FlockingDemo
   update: ->
     @mesh.rotation.x += 0.01
     @mesh.rotation.y += 0.02
+
+  createBoid: ->
+    console.log 'in create func'
+    boid = new Boid()
+    console.log('boid', boid)
+    boid.init();
+
 
 module.exports = new FlockingDemo
