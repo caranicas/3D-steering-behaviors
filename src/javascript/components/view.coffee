@@ -13,12 +13,13 @@ THREE     = require 'three'
 
 module.exports = Backbone.View.extend
 
-  template: require './template'
+  template: require './template.hbs'
 
   initialize: ->
     @render()
 
   render: ->
+    @$el.html @template
     @threeInit()
     @animate()
 
@@ -30,9 +31,14 @@ module.exports = Backbone.View.extend
     @material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true} )
     @mesh = new THREE.Mesh( @geometry, @material )
     @scene.add(@mesh)
-    @renderer = new THREE.CanvasRenderer()
+    webcan = @$('#webgl-canvas')[0];
+    debugger;
+    @renderer = new THREE.WebGLRenderer({canvas:webcan})
+    console.log('CANVAS', @renderer.domElement)
     @renderer.setSize( window.innerWidth, window.innerHeight )
-    document.body.appendChild( @renderer.domElement )
+
+
+    #document.body.appendChild( @renderer.domElement )
 
   animate:->
     requestAnimationFrame =>
