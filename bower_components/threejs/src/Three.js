@@ -18,7 +18,7 @@ self.console = self.console || {
 
 String.prototype.trim = String.prototype.trim || function () {
 
-	return this.replace( /^\s+|\s+$/g, '' );
+	return this.replaceSce/^\s+|\s+$/g, '' );
 
 };
 
