@@ -39,25 +39,21 @@ class FlockingDemo
     @mesh.rotation.x += 0.01
     @mesh.rotation.y += 0.02
 
-
-
   createSkyBox: ->
-    ###
-    imagePrefix = "images/dawnmountain-";
-    directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"];
-    imageSuffix = ".png";
-    skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 );
+    imagePrefix = "images/";
+    directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"]
+    imageSuffix = ".png"
+    skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 )
+    materialArray = []
+    i = 0
+    while i < 6
+      newMat = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),side:THREE.BackSide})
+      materialArray.push(newMat)
+      i++
+    skyMaterial = new THREE.MeshFaceMaterial( materialArray )
+    skyBox = new THREE.Mesh( skyGeometry, skyMaterial )
+    @scene.add( skyBox )
 
-    materialArray = [];
-    for (i = 0; i < 6; i++)
-      materialArray.push( new THREE.MeshBasicMaterial({
-        map: THREE.ImageUtils.loadTexture( imagePrefix + directions[i] + imageSuffix ),
-        side: THREE.BackSide
-    }));
-    skyMaterial = new THREE.MeshFaceMaterial( materialArray );
-    skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
-    scene.add( skyBox );
-    ###
 
   createLights: ->
 
