@@ -1,9 +1,9 @@
 class Behavior
 
 	boid:null
-	init:(boid) ->
+
+	constructor:(boid) ->
 		@boid = boid
-		console.log 'init behavior'
 
 	update: ->
 

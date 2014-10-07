@@ -1,4 +1,17 @@
+THREE = require 'THREE'
+Util = require '../behaviors/behaviorUtil.coffee'
+
 class Entity
+
+  behavior:null
+  mesh:null
+  boundingSize:100
+  acceleration:new THREE.Vector3(0,0,0)
+  velocity:new THREE.Vector3(0,0,0)
+
+  maxSpeed:2
+  minSpeed:0.3
+  maxForce:0.05
 
   constructor: ->
     @
@@ -6,35 +19,60 @@ class Entity
   init:(defaults) ->
     @behavior = defaults.behavior
     @mesh = defaults.mesh
-    @acceleration = {x:0.01,y:0,z:0}
-    @velocity = {x:0.1,y:0,z:0}
-    console.log 'at mesh', @mesh
+    @boundingSize = defaults.bounding
+    @acceleration = if defaults.velocity? then defaults.velocity else new THREE.Vector3(0.01,0,0)
+    @velocity = new THREE.Vector3(0.1,0,0)
 
   update:(objs)->
     @behavior.update(objs)
-    @updateVelocity()
-    @updatePosition()
+    @__updateVelocity()
+    @__updatePosition()
+    @__loopPosition()
+    @__clearAccel()
 
-  updateVelocity: ->
-    @velocity.x += @acceleration.x
-    @velocity.y += @acceleration.y
-    @velocity.z += @acceleration.z
-    #@acceleration = {x:0,y:0,z:0}
+  __updateVelocity: ->
+    @velocity.add(@acceleration)
+    @__capVelocity()
 
-  updateAcceleration: ->
+  __capVelocity: ->
+    @velocity = Util.limit(@velocity, @maxSpeed);
 
+  __clearAccel: ->
+    @acceleration = new THREE.Vector3(0,0,0)
 
-  updatePosition: ->
+  __updatePosition: ->
     @mesh.position.x +=@velocity.x
     @mesh.position.y +=@velocity.y
     @mesh.position.z +=@velocity.z
 
+  __loopPosition: ->
+    edges = @boundingSize/2
+    if @mesh.position.x > edges
+      @mesh.position.x = -edges;
+    else if @mesh.position.x < -edges
+      @mesh.position.x = edges;
+
+    if @mesh.position.y > edges
+      @mesh.position.y = -edges;
+    else if @mesh.position.y < -edges
+      @mesh.position.y = edges;
+
+    if @mesh.position.z > edges
+      @mesh.position.z = -edges;
+    else if @mesh.position.z < -edges
+      @mesh.position.z = edges;
+
   debugRender: ->
 
   getPosition: ->
-    return @mesh.getPosition()
+    return @mesh.position
 
   getVelocity: ->
-    return @mesh.getVelocity()
+    return @velocity
+
+  getAcceleration: ->
+    return @acceleration
+
+
 
 module.exports = Entity

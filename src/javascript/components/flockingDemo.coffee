@@ -1,7 +1,6 @@
 THREE = require 'THREE'
 $ = require 'jquery'
 Boid = require './objs/boid.coffee'
-Util = require './helper/util.coffee'
 BehaviorFlock = require './behaviors/flock.coffee'
 
 #Physi = require 'Physi'
@@ -19,8 +18,6 @@ class FlockingDemo
     @__initGeometry()
 
   __initScene: ->
-    console.log '__initScene'
-    console.log 'THREE',THREE
     @scene = new THREE.Scene()
     webcan = $('#webgl-canvas')[0];
     @renderer = new THREE.WebGLRenderer({canvas:webcan})
@@ -28,7 +25,7 @@ class FlockingDemo
 
   __initCamera: ->
     @camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 )
-    @camera.position.z = 100
+    @camera.position.z = @size-100
 
   __initGeometry: ->
     @createSkyBox()
@@ -64,18 +61,19 @@ class FlockingDemo
 
 
   createBoids: ->
-
     i = 0
     while i < @flockCount
-      randX = Math.random()*100 - 50;
-      randY = Math.random()*100 - 50;
+      randX = (Math.random()*(@size/5)) - (@size/10)
+      randY = (Math.random()*(@size/5)) - (@size/10);
       geometry = new THREE.CylinderGeometry(0,1,2,3,1)
-      console.log 'geometry', geometry
       material = new THREE.MeshBasicMaterial( { color: 0x00ffff, wireframe: true} )
       themesh = new THREE.Mesh( geometry, material )
       themesh.position.set(randX,randY,0)
       boid = new Boid()
-      boid.init({behavior:new BehaviorFlock(boid), mesh:themesh})
+      xvel = Math.random()
+      yvel = Math.random()
+      zvel = Math.random()
+      boid.init({behavior:new BehaviorFlock(boid), mesh:themesh, bounding:@size, velocity:new THREE.Vector3(xvel, yvel, zvel)})
       @scene.add(boid.mesh)
       @demoEntities.push(boid)
       ++i
