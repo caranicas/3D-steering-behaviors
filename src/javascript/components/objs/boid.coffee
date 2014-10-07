@@ -8,8 +8,10 @@ class Boid extends Entity
 		@
 
 	init:(defaults) ->
+		console.log 'entity defaults', defaults
 		super defaults
 		@
+
 
 module.exports = Boid
 

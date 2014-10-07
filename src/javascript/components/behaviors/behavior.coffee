@@ -1,8 +1,10 @@
 class Behavior
 
-	init: ->
+	boid:null
+	init:(boid) ->
+		@boid = boid
 		console.log 'init behavior'
 
 	update: ->
 
-module.exports = new FlockingDemo
+module.exports = Behavior

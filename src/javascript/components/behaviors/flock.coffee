@@ -1,12 +1,13 @@
-Behavior = require 'behavior.js'
+Behavior = require './behavior.coffee'
+
 
 class BehaviorFlock extends Behavior
 
-	init: ->
-		super
+	init:(boid) ->
+		super boid
 		console.log 'init behavior flock'
 
-	update: ->
+	update:(objs) ->
 		separation = this.calcSeparate(objs);
 		alignment = this.calcAlignment(objs);
 		cohesion = this.calcCohesion(objs);
@@ -18,4 +19,4 @@ class BehaviorFlock extends Behavior
 	calcSeparate:(objs) ->
 
 
-module.exports = new BehaviorFlock
+module.exports = BehaviorFlock

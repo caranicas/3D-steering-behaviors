@@ -1,9 +1,17 @@
 THREE = require 'THREE'
 $ = require 'jquery'
 Boid = require './objs/boid.coffee'
+Util = require './helper/util.coffee'
+BehaviorFlock = require './behaviors/flock.coffee'
+
 #Physi = require 'Physi'
 
 class FlockingDemo
+
+  demoEntities:[]
+  size:500
+  vertOff:200
+  flockCount:40
 
   threeInit: ->
     @__initScene()
@@ -19,15 +27,12 @@ class FlockingDemo
     @renderer.setSize( window.innerWidth, window.innerHeight )
 
   __initCamera: ->
-    @camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 )
-    @camera.position.z = 10
+    @camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 )
+    @camera.position.z = 100
 
   __initGeometry: ->
-    @geometry = new THREE.BoxGeometry( 1, 1, 1 )
-    @material = new THREE.MeshBasicMaterial( { color: 0xff00ff, wireframe: true} )
-    @mesh = new THREE.Mesh( @geometry, @material )
-    @scene.add(@mesh)
     @createSkyBox()
+    @createBoids()
 
   loop:->
     requestAnimationFrame =>
@@ -36,14 +41,14 @@ class FlockingDemo
     @renderer.render( @scene, @camera )
 
   update: ->
-    @mesh.rotation.x += 0.01
-    @mesh.rotation.y += 0.02
+    for entity in @demoEntities
+      entity.update(@demoEntities)
 
   createSkyBox: ->
     imagePrefix = "images/";
     directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"]
     imageSuffix = ".png"
-    skyGeometry = new THREE.CubeGeometry( 5000, 5000, 5000 )
+    skyGeometry = new THREE.CubeGeometry( @size, @size, @size )
     materialArray = []
     i = 0
     while i < 6
@@ -52,15 +57,28 @@ class FlockingDemo
       i++
     skyMaterial = new THREE.MeshFaceMaterial( materialArray )
     skyBox = new THREE.Mesh( skyGeometry, skyMaterial )
+    skyBox.position.set(0,@vertOff,0)
     @scene.add( skyBox )
-
 
   createLights: ->
 
 
   createBoids: ->
-    boid = new Boid()
-    boid.init();
+
+    i = 0
+    while i < @flockCount
+      randX = Math.random()*100 - 50;
+      randY = Math.random()*100 - 50;
+      geometry = new THREE.CylinderGeometry(0,1,2,3,1)
+      console.log 'geometry', geometry
+      material = new THREE.MeshBasicMaterial( { color: 0x00ffff, wireframe: true} )
+      themesh = new THREE.Mesh( geometry, material )
+      themesh.position.set(randX,randY,0)
+      boid = new Boid()
+      boid.init({behavior:new BehaviorFlock(boid), mesh:themesh})
+      @scene.add(boid.mesh)
+      @demoEntities.push(boid)
+      ++i
 
 
 module.exports = new FlockingDemo
