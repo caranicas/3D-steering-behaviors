@@ -1,0 +1,8 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+  	"Physijs":"git://github.com/chandlerprall/Physijs.git#a5849b651cd5be6745b1cb2906ece56749ed17b0"
+  }
+}
