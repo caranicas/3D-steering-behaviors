@@ -8,8 +8,8 @@ BehaviorFlock = require './behaviors/flock.coffee'
 class FlockingDemo
 
   demoEntities:[]
-  size:500
-  vertOff:200
+  size:100
+  vertOff:20
   flockCount:40
 
   threeInit: ->
@@ -25,7 +25,7 @@ class FlockingDemo
 
   __initCamera: ->
     @camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 )
-    @camera.position.z = @size-100
+    @camera.position.z = @size-(@size/5)
 
   __initGeometry: ->
     @createSkyBox()
@@ -45,7 +45,7 @@ class FlockingDemo
     imagePrefix = "images/";
     directions  = ["xpos", "xneg", "ypos", "yneg", "zpos", "zneg"]
     imageSuffix = ".png"
-    skyGeometry = new THREE.CubeGeometry( @size, @size, @size )
+    skyGeometry = new THREE.BoxGeometry( @size, @size, @size )
     materialArray = []
     i = 0
     while i < 6

@@ -9,9 +9,9 @@ class Entity
   acceleration:new THREE.Vector3(0,0,0)
   velocity:new THREE.Vector3(0,0,0)
 
-  maxSpeed:2
+  maxSpeed:0.5
   minSpeed:0.3
-  maxForce:0.05
+  maxForce:0.005
 
   constructor: ->
     @
@@ -20,13 +20,14 @@ class Entity
     @behavior = defaults.behavior
     @mesh = defaults.mesh
     @boundingSize = defaults.bounding
-    @acceleration = if defaults.velocity? then defaults.velocity else new THREE.Vector3(0.01,0,0)
-    @velocity = new THREE.Vector3(0.1,0,0)
+    @velocity = if defaults.velocity? then defaults.velocity else new THREE.Vector3(0.01,0,0)
+    @acceleration = new THREE.Vector3(0.0,0,0)
 
   update:(objs)->
     @behavior.update(objs)
     @__updateVelocity()
     @__updatePosition()
+    @__updateFacing()
     @__loopPosition()
     @__clearAccel()
 
@@ -44,6 +45,13 @@ class Entity
     @mesh.position.x +=@velocity.x
     @mesh.position.y +=@velocity.y
     @mesh.position.z +=@velocity.z
+
+  __updateFacing: ->
+    quat = Util.facing(@)
+    @mesh.rotation.setFromQuaternion(quat,'XYZ')
+    if(isNaN(@mesh.rotation.x))
+      console.log 'is nan'
+      debugger;
 
   __loopPosition: ->
     edges = @boundingSize/2
