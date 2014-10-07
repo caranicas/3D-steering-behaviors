@@ -27,20 +27,18 @@ class Util
 		pos.normalize()
 		vel.normalize()
 		dot = pos.dot(vel)
-		if dot is -1
-			clean = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),3.1415)
-			return clean
-		if dot is 1
+		console.log('dot', dot)
+		if Math.abs(dot + 1.0) < 0.000001
+			return new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),3.1415)
+
+		if Math.abs(dot - 1.0) < 0.000001
 			return new THREE.Quaternion(0,0,0,1)
 
-		rotAngle = Math.acos(dot/57.295)
-		rotAxis = new THREE.Vector3().crossVectors(pos, target).normalize()
+		rotAngle = Math.acos(dot)
+		rotAxis = new THREE.Vector3().crossVectors(target,pos).normalize()
 		quat = new THREE.Quaternion()
 		quat.setFromAxisAngle(rotAxis, rotAngle)
 
-		if(isNaN(quat.x))
-			console.log 'is nan'
-			debugger;
 		return quat
 
 module.exports = new Util

@@ -49,9 +49,6 @@ class Entity
   __updateFacing: ->
     quat = Util.facing(@)
     @mesh.rotation.setFromQuaternion(quat,'XYZ')
-    if(isNaN(@mesh.rotation.x))
-      console.log 'is nan'
-      debugger;
 
   __loopPosition: ->
     edges = @boundingSize/2
