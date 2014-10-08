@@ -8,9 +8,9 @@ BehaviorFlock = require './behaviors/flock.coffee'
 class FlockingDemo
 
   demoEntities:[]
-  size:100
-  vertOff:20
-  flockCount:10
+  size:200
+  vertOff:60
+  flockCount:40
 
   threeInit: ->
     @__initScene()
@@ -80,14 +80,15 @@ class FlockingDemo
     while i < @flockCount
       randX = (Math.random()*(@size/5)) - (@size/10)
       randY = (Math.random()*(@size/5)) - (@size/10)
+      randZ = (Math.random()*(@size/5)) - (@size/10)
       geometry = new THREE.CylinderGeometry(0,1,4,8,1)
       material = new THREE.MeshLambertMaterial( { color: 0x00ffff, wireframe: false} )
       themesh = new THREE.Mesh( geometry, material )
-      themesh.position.set(randX,randY,0)
+      themesh.position.set(randX,randY,randZ)
       boid = new Boid()
-      xvel = 0#Math.random()
-      yvel = 0#Math.random()
-      zvel = 0#Math.random()
+      xvel = Math.random()
+      yvel = Math.random()
+      zvel = Math.random()
       boid.init({behavior:new BehaviorFlock(boid), mesh:themesh, bounding:@size, velocity:new THREE.Vector3(xvel, yvel, zvel)})
       @scene.add(boid.mesh)
       @demoEntities.push(boid)

@@ -20,6 +20,26 @@ class Util
 			vec3.multiplyScalar(max)
 		vec3
 
+	avoidWalls:(vector,bounds, buffer, stregth) ->
+		avoidance = new THREE.Vector3(0,0,0)
+
+		if vector.x < -bounds+buffer
+			avoidance.x = stregth
+		else if vector.x > bounds-buffer
+			avoidance.x = -stregth;
+
+		if vector.y < -bounds+buffer
+			avoidance.y = stregth
+		else if vector.y > bounds-buffer
+			avoidance.y = -stregth
+
+		if vector.z < -bounds+buffer
+			avoidance.z = stregth
+		else if vector.z > bounds-buffer
+			avoidance.z = -stregth
+
+		return avoidance;
+
 	facing:(entity) ->
 		pos = entity.getPosition().clone()
 		vel = entity.getVelocity().clone()
