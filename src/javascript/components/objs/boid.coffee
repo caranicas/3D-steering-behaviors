@@ -1,8 +1,6 @@
 
 Entity = require './entity.coffee'
 
-
-
 class Boid extends Entity
 
 	sepRad:10
