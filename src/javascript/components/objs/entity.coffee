@@ -9,9 +9,9 @@ class Entity
   acceleration:new THREE.Vector3(0,0,0)
   velocity:new THREE.Vector3(0,0,0)
 
-  maxSpeed:0.5
+  maxSpeed:2
   minSpeed:0.3
-  maxForce:0.005
+  maxForce:0.05
 
   constructor: ->
     @
@@ -47,8 +47,13 @@ class Entity
     @mesh.position.z +=@velocity.z
 
   __updateFacing: ->
-    quat = Util.facing(@)
-    @mesh.rotation.setFromQuaternion(quat,'XYZ')
+    norm = @velocity.clone()
+    norm.normalize();
+    @mesh.rotation.x = norm.z
+    @mesh.rotation.y = norm.z
+    @mesh.rotation.z = norm.z
+    #quat = Util.facing(@)
+    #@mesh.rotation.setFromQuaternion(quat,'XYZ')
 
   __loopPosition: ->
     edges = @boundingSize/2

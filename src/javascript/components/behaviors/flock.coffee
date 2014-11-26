@@ -12,12 +12,11 @@ class BehaviorFlock extends Behavior
 		separation = @calcSeparate objs
 		alignment = @calcAlignment objs
 		cohesion = @calcCohesion objs
-		console.log @boid
-		console.log @boid.boundingSize
 		avoid = Util.avoidWalls(@boid.getPosition(),(@boid.boundingSize/2),(@boid.boundingSize/5), @boid.maxAvoid)
-		#separation.multiplyScalar @boid.sepWeight
-		#alignment.multiplyScalar @boid.aligWeight
-		#cohesion.multiplyScalar @boid.cohWeight
+
+		separation.multiplyScalar @boid.sepWeight
+		alignment.multiplyScalar @boid.aligWeight
+		cohesion.multiplyScalar @boid.cohWeight
 
 		@boid.getAcceleration().add(separation)
 		@boid.getAcceleration().add(alignment)

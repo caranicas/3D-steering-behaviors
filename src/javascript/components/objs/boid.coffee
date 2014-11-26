@@ -7,9 +7,9 @@ class Boid extends Entity
 	aligRad:40
 	cohRad:50
 
-	sepWeight:0.3
-	cohWeight:0.2
-	aligWeight:0.2
+	sepWeight:3
+	cohWeight:1.5
+	aligWeight:2
 
 	maxAvoid:3
 	maxSeeAhead:100
